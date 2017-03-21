@@ -24,7 +24,7 @@ import (
 	"testing/quick"
 	"time"
 
-	"github.com/oklog/ulid"
+	"github.com/ceocoder/ulid"
 )
 
 func ExampleULID() {

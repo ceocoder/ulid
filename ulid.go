@@ -15,6 +15,7 @@ package ulid
 
 import (
 	"bytes"
+	"crypto/rand"
 	"errors"
 	"io"
 	"time"
@@ -82,6 +83,13 @@ func MustNew(ms uint64, entropy io.Reader) ULID {
 	return id
 }
 
+// NewRandom is a convenience function that gives you a random ULID
+//
+// it uses crypto/rand
+func NewRandom() ULID {
+	return MustNew(Now(), rand.Reader)
+}
+
 // Parse parses an encoded ULID, returning an error in case of failure.
 //
 // ErrDataSize is returned if the len(ulid) is different from an encoded
@@ -107,6 +115,11 @@ func (id ULID) String() string {
 	ulid := make([]byte, EncodedSize)
 	_ = id.MarshalTextTo(ulid)
 	return string(ulid)
+}
+
+// Bytes returns bytes slice representation of ULID.
+func (id ULID) Bytes() []byte {
+	return id[:]
 }
 
 // MarshalBinary implements the encoding.BinaryMarshaler interface by
